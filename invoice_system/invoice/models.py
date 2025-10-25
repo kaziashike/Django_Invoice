@@ -16,7 +16,7 @@ class Invoice(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
 
 class Items(models.Model):
-    invoice=models.ForeignKey(Invoice,related_name='items', on_delete=models.CASCADE)
+    invoice=models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
     invoice_item=models.CharField(max_length=100)
     item_unit_price=models.DecimalField(max_digits=10, decimal_places=2)
     quantity=models.PositiveIntegerField()
