@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 @api_view(['POST'])
 def create_invoice(request):
     serializer=InvoiceSerializer(data=request.data)
-    if serializers.is_valid():
+    if serializer.is_valid():
         Invoice= serializer.save()
         return Response(InvoiceSerializer(Invoice).data)
     return Response(serializer.errors, status= 400)
@@ -21,7 +21,7 @@ def  pay_invoice(request, invoice_id):
         if (Invoice.status == 'unpaid'):
             Invoice.status = 'paid'
             Invoice.save()
-            Transaction.objects.create(Transaction_status='paid', amount=Invoice.amount, invoice=Invoice)
+            transaction=Transaction.objects.create(Transaction_status='paid', amount=Invoice.amount, invoice=Invoice)
         else:
             return Response({'error': 'Invoice is already paid'})
     else:
@@ -29,12 +29,12 @@ def  pay_invoice(request, invoice_id):
 # single list invoice (Get)
 @api_view(['GET'])
 def get_single_invoice(request,invoice_id):
-    invoice=get_object_or_404(invoice, invoice_id=invoice_id)
+    invoice=get_object_or_404(Invoice, invoice_id=invoice_id)
     serializers=InvoiceSerializer(invoice)
     return Response(serializers.data)
 # list all invoice (Get)
 @api_view(['GET'])
-def get_invoice(request):
+def get_invoices(request):
     invoice=Invoice.objects.all()
     serrializer=InvoiceSerializer(invoice, many=True)
     return Response(serrializer.data)

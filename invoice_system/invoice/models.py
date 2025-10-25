@@ -26,7 +26,7 @@ class Items(models.Model):
         super().save(*args, **kwargs)
 
 
-class Transaction (models.Model):
+class Transaction(models.Model):
     RECORD=(
         ('sold', 'Sold'),
         ('paid', 'Paid'),
