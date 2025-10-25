@@ -8,7 +8,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    items = ItemSerializer(many=True)
+    items = ItemSerializer(many=True, read_only=True)
     class Meta:
         model = Invoice
         fields = '__all__'
