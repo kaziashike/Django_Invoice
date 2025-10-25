@@ -16,11 +16,14 @@ class Invoice(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
 
 class Items(models.Model):
-    invoice=models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice=models.ForeignKey(Invoice,related_name='items', on_delete=models.CASCADE)
     invoice_item=models.CharField(max_length=100)
     item_unit_price=models.DecimalField(max_digits=10, decimal_places=2)
-    quantity=models.DecimalField(max_digits=10, decimal_places=2)
-    total=models.DecimalField(max_digits=10, decimal_places=2)
+    quantity=models.PositiveIntegerField()
+    total=models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    def save(self, *args, **kwargs):
+        self.total=self.item_unit_price*self.quantity
+        super().save(*args, **kwargs)
 
 
 class Transaction (models.Model):
@@ -28,7 +31,7 @@ class Transaction (models.Model):
         ('sold', 'Sold'),
         ('paid', 'Paid'),
     )
-    invoice=models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice=models.ForeignKey(Invoice, on_delete=models.PROTECT)
     Transaction_status=models.CharField(max_length=100, choices=RECORD)
     amount=models.DecimalField(max_digits=10, decimal_places=2)
     Transaction_time=models.DateTimeField(auto_now_add=True)
