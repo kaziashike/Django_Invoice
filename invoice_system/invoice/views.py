@@ -21,7 +21,7 @@ def  pay_invoice(request, invoice_id):
         if (Invoice.status == 'unpaid'):
             Invoice.status = 'paid'
             Invoice.save()
-            transaction=Transaction.objects.create(Transaction_status='paid', amount=Invoice.amount, invoice=Invoice)
+            Transaction.objects.create(Transaction_status='paid', amount=Invoice.amount, invoice=Invoice)
         else:
             return Response({'error': 'Invoice is already paid'})
     else:
