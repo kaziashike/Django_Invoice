@@ -11,9 +11,10 @@ class Invoice(models.Model):
     invoice_id = models.CharField(max_length=100, unique=True)
     name=models.CharField(max_length=100)
     email=models.EmailField()
-    amount=models.DecimalField(max_digits=10, decimal_places=2)
+    amount=models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     status=models.CharField(max_length=100, choices=TRANSACTION_STATUS_CHOICES, default='unpaid')
     created_at=models.DateTimeField(auto_now_add=True)
+
 
 class Items(models.Model):
     invoice=models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
@@ -21,9 +22,6 @@ class Items(models.Model):
     item_unit_price=models.DecimalField(max_digits=10, decimal_places=2)
     quantity=models.PositiveIntegerField()
     total=models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    def save(self, *args, **kwargs):
-        self.total=self.item_unit_price*self.quantity
-        super().save(*args, **kwargs)
 
 
 class Transaction(models.Model):
