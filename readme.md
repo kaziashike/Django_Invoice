@@ -19,7 +19,7 @@ POST /invoices/create/
 Headers:
 
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <your_token>
 
 Body:
 {
@@ -96,7 +96,7 @@ POST /invoices/{invoice_id}/pay/
 Example:
 
 curl -X POST http://127.0.0.1:8000/api/invoices/INV-001/pay/ \
-  -H "Authorization: Bearer <token>"
+  -H "Authorization: Bearer <your token>"
 
 ----------------------------------------------
 5. Delete an Invoice
@@ -106,4 +106,4 @@ DELETE /invoices/{invoice_id}/delete/
 Example:
 
 curl -X DELETE http://127.0.0.1:8000/api/invoices/INV-001/delete/ \
-  -H "Authorization: Bearer <token>"
+  -H "Authorization: Bearer <your token>"
